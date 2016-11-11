@@ -6,7 +6,15 @@ Instructions to [build this package using Maven](http://docs.aws.amazon.com/sdk-
 
 Instructions for [invoking custom java code in Mirth Connect](http://www.mirthcorp.com/community/wiki/display/mirth/How+to+create+and+invoke+custom+Java+code+in+Mirth+Connect).
 
-In Example 1, we assume the data received from connectorMessage.getRawData() is formatted JSON
+Quick build instructions once Maven and Java are installed and ready per instructions in AWS documentation.
+```
+git clone https://github.com/aws-joe/mirth-aws-example-app.git
+cd mirth-aws-example-app
+mvn clean package
+```
+
+In Example 1, we assume the data received from connectorMessage.getRawData() is formatted JSON.
+
 Example Javascript Writer in Mirth Connect using sample code:
 ```
 //Example 1
