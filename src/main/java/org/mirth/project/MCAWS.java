@@ -51,13 +51,14 @@ public class MCAWS
 	System.out.println("Mirth Example Exec");
 	//listbucketsitems(bucketName);
 
+	//Example for testing CCD:
         //try {
         //    FileInputStream inputStream = new FileInputStream("/var/mirth/ccd-bb/output/ccd.xml");
         //    ccdJson = IOUtils.toString(inputStream);
         //} catch (IOException e) { System.out.println("ERROR ON FILE"); e.printStackTrace(); }
-
 	//dynamoInsertJson(ccdJson, "mirthdata", "222333444UUID", "10-26-2016");
 
+	//Example pulling out CCD Details:
 	//try {
 	//JSONObject obj = new JSONObject(ccdJson);
 	//String firstName = obj.getJSONObject("data").getJSONObject("demographics").getJSONObject("name").getString("first");
@@ -72,8 +73,18 @@ public class MCAWS
 	//String key = "filename" + UUID.randomUUID() + ".txt";
 	//String fileContents = "asdfhapfuapf-98rfiosafj\nap9sdfpa9udsfa\n98asdp9f8a\n";
 
-	//putMirthS3(bucketName, key, fileLocation, fileContents);
 	}
+
+    public static void putImageS3(String bucketName, String key, String fileName) {
+        AmazonS3 s3 = new AmazonS3Client();
+        Region usWest2 = Region.getRegion(Regions.US_WEST_2);
+        //Region usWest2 = Region.getRegion(s3Region);
+        s3.setRegion(usWest2);
+        try {
+            File file = new File(fileName);
+            s3.putObject(new PutObjectRequest(bucketName, key, file));
+        } catch (Exception e) { System.out.println("ERROR ON IMAGE FILE"); }
+    }
 
     public static void putMirthS3(String bucketName, String key, String fileLocation, String fileContents) {
 	AmazonS3 s3 = new AmazonS3Client();
@@ -81,14 +92,14 @@ public class MCAWS
 	s3.setRegion(usWest2);
 	try {
 	s3.putObject(new PutObjectRequest(bucketName, key, createTmpFile(fileContents)));
-	} catch (Exception e) { System.out.println("ERROR ON FILE"); }
+	} catch (Exception e) { System.out.println("ERROR ON TEXT FILE"); }
     }
 
     public static void dynamoInsertJson(String ccdJson, String mirthTable, String mirthId, String mirthDate) {
         System.out.println( "Performing insert into DynamoDB" );
-	String firstName = "";
-	String lastName = "";
-	String dob = "";
+	String firstName = "NONE";
+	String lastName = "NONE";
+	String dob = "NONE";
 	String docType = "ccda";
 
         AmazonDynamoDBClient client = new AmazonDynamoDBClient();
@@ -104,10 +115,6 @@ public class MCAWS
         firstName = obj.getJSONObject("data").getJSONObject("demographics").getJSONObject("name").getString("first");
         lastName = obj.getJSONObject("data").getJSONObject("demographics").getJSONObject("name").getString("last");
         dob = obj.getJSONObject("data").getJSONObject("demographics").getJSONObject("dob").getJSONObject("point").getString("date");
-	if(docType.length() < 2) { docType = "NONE"; }
-	if(firstName.length() < 2) { firstName = "NONE"; }
-	if(lastName.length() < 2) { lastName = "NONE"; }
-	if(dob.length() < 4) { dob = "NONE"; }
 
         //System.out.println(firstName);
         } catch (org.json.JSONException e) { System.out.println("JSON ERROR"); }
@@ -122,6 +129,7 @@ public class MCAWS
                 .withString("FirstName", firstName)
                 .withString("LastName", lastName)
                 .withString("DOB", dob)
+                .withString("Processed", "N")
                 .withJSON("document", ccdJson);
 
         table.putItem(item);
@@ -145,10 +153,6 @@ public class MCAWS
         //firstName = obj.getJSONObject("data").getJSONObject("demographics").getJSONObject("name").getString("first");
         lastName = obj.getJSONObject("00100010").getJSONObject("Value").getString("Alphabetic");
         dob = obj.getJSONObject("00100030").getJSONObject("Value").getString("Alphabetic");
-        if(docType.length() < 2) { docType = "NONE"; }
-        if(firstName.length() < 2) { firstName = "NONE"; }
-        if(lastName.length() < 2) { lastName = "NONE"; }
-        if(dob.length() < 4) { dob = "NONE"; }
 
         } catch (org.json.JSONException e) { System.out.println("JSON ERROR"); }
 
@@ -162,6 +166,7 @@ public class MCAWS
                 .withString("FirstName", firstName)
                 .withString("LastName", lastName)
                 .withString("DOB", dob)
+                .withString("Processed", "N")
                 .withJSON("document", dicomJson);
 
         table.putItem(item);

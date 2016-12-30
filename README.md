@@ -6,12 +6,33 @@ Instructions to [build this package using Maven](http://docs.aws.amazon.com/sdk-
 
 Instructions for [invoking custom java code in Mirth Connect](http://www.mirthcorp.com/community/wiki/display/mirth/How+to+create+and+invoke+custom+Java+code+in+Mirth+Connect).
 
+
+
 Quick build instructions once Maven and Java are installed and ready per instructions in AWS documentation.
 ```
 git clone https://github.com/aws-joe/mirth-aws-example-app.git
 cd mirth-aws-example-app
 mvn clean package
 ```
+
+Create a directory and copy this jar file to the new directory. 
+
+Add this new directory to your Mirth Connection configuration.
+	- From within Mirth Connect Administrative Console, click settings.
+	- Click Resources
+	- Click Add Resource
+	- Enter full directory path and add a description
+	- Once complete, click, Reload Resource
+
+For each Mirth Channel using these libraries, you must include this library resource in the channel as well as any destinations.
+	- For each channel, enter the channel configuration.
+	- Click, Set Dependencies
+	- Click, Library Resources
+	- Select the context the library should be used with.
+	- Highlight the check box for the library to include.
+	- Save and deploy channel
+
+Example use can be found in the example Mirth Channels provided.
 
 In Example 1, we assume the data received from connectorMessage.getRawData() is formatted JSON.
 
