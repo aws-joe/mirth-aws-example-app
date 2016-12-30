@@ -5,10 +5,10 @@
   <description></description>
   <enabled>true</enabled>
   <lastModified>
-    <time>1478910743734</time>
+    <time>1483078877791</time>
     <timezone>America/Los_Angeles</timezone>
   </lastModified>
-  <revision>29</revision>
+  <revision>31</revision>
   <sourceConnector version="3.4.2">
     <metaDataId>0</metaDataId>
     <name>sourceConnector</name>
@@ -160,7 +160,10 @@
 var awsObj = new Packages.org.mirth.project.MCAWS();
 
 var uuid = globalMap.get(&quot;awsFileMapId&quot;);
-awsObj.putMirthS3(&quot;mirth-blog-data&quot;,uuid+&quot;.txt&quot;,&quot;flocation&quot;,connectorMessage.getEncodedData());
+
+var s3Bucket = configurationMap.get(&apos;s3BucketName&apos;);
+
+awsObj.putMirthS3(s3Bucket,uuid+&quot;.txt&quot;,&quot;flocation&quot;,connectorMessage.getEncodedData());
 </script>
       </properties>
       <transformer version="3.4.2">
@@ -254,13 +257,13 @@ awsObj.putMirthS3(&quot;mirth-blog-data&quot;,uuid+&quot;.txt&quot;,&quot;flocat
           <queueBufferSize>1000</queueBufferSize>
         </destinationConnectorProperties>
         <driver>com.mysql.jdbc.Driver</driver>
-        <url>jdbc:mysql://mysql-host:3306/mirthdb</url>
-        <username>mysql-user</username>
-        <password>mysql-password</password>
+        <url>jdbc:mysql://hostname:3306/database</url>
+        <username>username</username>
+        <password>password</password>
         <query>var dbConn;
 
 try {
-	dbConn = DatabaseConnectionFactory.createDatabaseConnection(&apos;com.mysql.jdbc.Driver&apos;,&apos;jdbc:mysql://mysql-host:3306/mirthdb&apos;,&apos;mysql-user&apos;,&apos;mysql-password&apos;);
+	dbConn = DatabaseConnectionFactory.createDatabaseConnection(&apos;com.mysql.jdbc.Driver&apos;,&apos;jdbc:mysql://hostname:3306/database&apos;,&apos;username&apos;,&apos;password&apos;);
 	var awsFileId = globalMap.get(&quot;awsFileMapId&quot;);
 	var result = dbConn.executeUpdate(&quot;INSERT INTO AWS_FILE_MAP (date_submitted, file_type, file_name, aws_file_id) VALUES (NOW(),&apos;ccda&apos;, &apos;&quot;+$(&apos;originalFilename&apos;)+&quot;&apos;, &apos;&quot;+awsFileId+&quot;&apos;)&quot;);
 
@@ -268,7 +271,9 @@ try {
 	if (dbConn) { 
 		dbConn.close();
 	}
-}</query>
+}
+
+</query>
         <useScript>true</useScript>
       </properties>
       <transformer version="3.4.2">
