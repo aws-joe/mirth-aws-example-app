@@ -27,6 +27,10 @@ mvn clean package
  * Enter full directory path and add a description
  * Once complete, click, Reload Resource
 
+#####Additional web services used by Mirth Channels
+ * bb-webapp: HTTP listener used to process CCD/CDA XML into JSON for insertion into Amazon DynamoDB
+ * hl7-webapp: HTTP listener used convert transformed HL7 messages in XML format to JSON for insertion into Amazon DynamoDB
+
 #####For each Mirth Channel using these libraries, you must include this library resource in the channel as well as any destinations.
  * For each channel, enter the channel configuration.
  * Click, Set Dependencies
