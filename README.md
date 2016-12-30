@@ -13,33 +13,33 @@ cd mirth-aws-example-app
 mvn clean package
 ```
 
-Setting Amazon S3 Bucket Destination
-> Under settings in Mirth Administrative Console, select Settings.
-> On the top menu list, select Configuration Map.
-> Click on Add to add a value.  
-> The Key should be s3BucketName with the value being the name of your Amazon S3 bucket. 
-> Create a directory and copy this jar file to the new directory. 
+#####Setting Amazon S3 Bucket Destination
+ * Under settings in Mirth Administrative Console, select Settings.
+ * On the top menu list, select Configuration Map.
+ * Click on Add to add a value.  
+ * The Key should be s3BucketName with the value being the name of your Amazon S3 bucket. 
+ * Create a directory and copy this jar file to the new directory. 
 
-Add this new directory to your Mirth Connection configuration.
-	- From within Mirth Connect Administrative Console, click settings.
-	- Click Resources
-	- Click Add Resource
-	- Enter full directory path and add a description
-	- Once complete, click, Reload Resource
+#####Add this new directory to your Mirth Connection configuration.
+ * From within Mirth Connect Administrative Console, click settings.
+ * Click Resources
+ * Click Add Resource
+ * Enter full directory path and add a description
+ * Once complete, click, Reload Resource
 
-For each Mirth Channel using these libraries, you must include this library resource in the channel as well as any destinations.
-	- For each channel, enter the channel configuration.
-	- Click, Set Dependencies
-	- Click, Library Resources
-	- Select the context the library should be used with.
-	- Highlight the check box for the library to include.
-	- Save and deploy channel
+#####For each Mirth Channel using these libraries, you must include this library resource in the channel as well as any destinations.
+ * For each channel, enter the channel configuration.
+ * Click, Set Dependencies
+ * Click, Library Resources
+ * Select the context the library should be used with.
+ * Highlight the check box for the library to include.
+ * Save and deploy channel
 
 Example use can be found in the example Mirth Channels provided.
 
 In Example 1, we assume the data received from connectorMessage.getRawData() is formatted JSON.
 
-Example Javascript Writer in Mirth Connect using sample code:
+#####Example Javascript Writer in Mirth Connect using sample code:
 ```
 //Example 1
 //create unique ID during insert
