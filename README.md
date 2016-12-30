@@ -14,10 +14,11 @@ mvn clean package
 ```
 
 Setting Amazon S3 Bucket Destination
-```
-Under settings in Mirth Administrative Console, select Settings.  On the top menu list, select Configuration Map.  Click on Add to add a value.  The Key should be s3BucketName with the value being the name of your Amazon S3 bucket. 
-```
-Create a directory and copy this jar file to the new directory. 
+> Under settings in Mirth Administrative Console, select Settings.
+> On the top menu list, select Configuration Map.
+> Click on Add to add a value.  
+> The Key should be s3BucketName with the value being the name of your Amazon S3 bucket. 
+> Create a directory and copy this jar file to the new directory. 
 
 Add this new directory to your Mirth Connection configuration.
 	- From within Mirth Connect Administrative Console, click settings.
