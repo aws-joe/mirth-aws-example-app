@@ -4,7 +4,7 @@ Used in the Mirth Channel examples.
 
 This HTTP listener receives a POST from Mirth Connect and converts the content to JSON
 
-Installation:
+####Installation:
 
 ```
 npm install http querystring blue-button
