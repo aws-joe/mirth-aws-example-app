@@ -95,6 +95,44 @@ public class MCAWS
 	} catch (Exception e) { System.out.println("ERROR ON TEXT FILE"); }
     }
 
+    public static void dynamoInsertHl7Json(String hl7Json, String mirthTable, String mirthId, String mirthDate) {
+	String firstName = "NONE";
+        String lastName = "NONE";
+        String dob = "NONE";
+        String docType = "hl7";
+	String messageType = "NONE";
+
+        AmazonDynamoDBClient client = new AmazonDynamoDBClient();
+        client.withRegion(Regions.US_WEST_2);
+        DynamoDB dynamoDB = new DynamoDB(client);
+        Table table = dynamoDB.getTable(mirthTable);
+        try {
+        JSONObject obj = new JSONObject(hl7Json);
+	
+	firstName = obj.getJSONObject("HL7Message").getJSONObject("PID").getJSONObject("PID.5").getString("PID.5.2");
+	lastName = obj.getJSONObject("HL7Message").getJSONObject("PID").getJSONObject("PID.5").getString("PID.5.1");
+	dob = obj.getJSONObject("HL7Message").getJSONObject("PID").getJSONObject("PID.7").getString("PID.7.1");
+	messageType = obj.getJSONObject("HL7Message").getJSONObject("MSH").getJSONObject("MSH.9").getString("MSH.9.1");
+        } catch (org.json.JSONException e) { System.out.println("HL7 JSON ERROR"); }        
+
+	//replace empyty string with value representing blank
+        hl7Json = hl7Json.replaceAll("\"\"","\"NONE\"");
+
+        Item item =
+            new Item()
+                .withPrimaryKey("mirthid", mirthId)
+                .withString("mirthdate", mirthDate)
+                .withString("type", docType)
+                .withString("FirstName", firstName)
+                .withString("LastName", lastName)
+                .withString("DOB", dob)
+                .withString("HL7Type", messageType)
+                .withString("Processed", "N")
+                .withJSON("document", hl7Json);
+
+        table.putItem(item);
+    }
+
     public static void dynamoInsertJson(String ccdJson, String mirthTable, String mirthId, String mirthDate) {
         System.out.println( "Performing insert into DynamoDB" );
 	String firstName = "NONE";
