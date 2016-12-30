@@ -6,8 +6,6 @@ Instructions to [build this package using Maven](http://docs.aws.amazon.com/sdk-
 
 Instructions for [invoking custom java code in Mirth Connect](http://www.mirthcorp.com/community/wiki/display/mirth/How+to+create+and+invoke+custom+Java+code+in+Mirth+Connect).
 
-
-
 Quick build instructions once Maven and Java are installed and ready per instructions in AWS documentation.
 ```
 git clone https://github.com/aws-joe/mirth-aws-example-app.git
@@ -15,6 +13,10 @@ cd mirth-aws-example-app
 mvn clean package
 ```
 
+Setting Amazon S3 Bucket Destination
+```
+Under settings in Mirth Administrative Console, select Settings.  On the top menu list, select Configuration Map.  Click on Add to add a value.  The Key should be s3BucketName with the value being the name of your Amazon S3 bucket. 
+```
 Create a directory and copy this jar file to the new directory. 
 
 Add this new directory to your Mirth Connection configuration.
